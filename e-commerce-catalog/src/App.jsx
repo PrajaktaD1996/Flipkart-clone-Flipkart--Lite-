@@ -3,12 +3,15 @@ import Navbar from './components/Navbar';
 import FilterSidebar from './components/FilterSidebar';
 import ProductGrid from './components/ProductGrid';
 import { mockProducts } from './data/mockProducts';
+import useDebounce from './hooks/useDebounce'; // Import custom hook
 
 export default function App() {
   //define filter states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [maxPrice, setMaxPrice] = useState(10000);
+
+const debouneSearchQuery = useDebounce(searchQuery,300);
 
 //define category check box toggle 
   const handleCategoryChange = (category) => {
