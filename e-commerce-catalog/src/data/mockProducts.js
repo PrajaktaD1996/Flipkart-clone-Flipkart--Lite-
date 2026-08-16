@@ -28,11 +28,11 @@ export const mockProducts = [
   },
   {
     id: 4,
-    title: "Ergonomic Office Desk Chair",
+    title: "Ergonomic Chair",
     category: "Home",
     price: 7999,
     rating: 4.3,
-    image: "https://images.unsplash.com/photo-1580481077494-e3299ac25e94?w=500&q=80",
+    image: "https://images.unsplash.com/photo-1505843490538-5133c6c7d0e1?w=500&q=80",
     inStock: true,
   },
   {
