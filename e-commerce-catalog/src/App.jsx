@@ -1,0 +1,61 @@
+import { useState, useMemo } from 'react';
+import Navbar from './components/Navbar';
+import FilterSidebar from './components/FilterSidebar';
+import ProductGrid from './components/ProductGrid';
+import { mockProducts } from './data/mockProducts';
+
+export default function App() {
+  const [searchQuery, setSearchQuery] = useState('');
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [maxPrice, setMaxPrice] = useState(10000);
+
+  const handleCategoryChange = (category) => {
+    setSelectedCategories((prev) =>
+      prev.includes(category)
+        ? prev.filter((cat) => cat !== category)
+        : [...prev, category]
+    );
+  };
+
+  const filteredProducts = useMemo(() => {
+    return mockProducts.filter((product) => {
+      const matchesSearch = product.title
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+
+      const matchesCategory =
+        selectedCategories.length === 0 ||
+        selectedCategories.includes(product.category);
+
+      const matchesPrice = product.price <= maxPrice;
+
+      return matchesSearch && matchesCategory && matchesPrice;
+    });
+  }, [searchQuery, selectedCategories, maxPrice]);
+
+  return (
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      <Navbar searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+      
+      <div className="flex flex-1">
+        <FilterSidebar 
+          selectedCategories={selectedCategories}
+          handleCategoryChange={handleCategoryChange}
+          maxPrice={maxPrice}
+          setMaxPrice={setMaxPrice}
+        />
+        
+        <main className="flex-1 p-6">
+          <div className="flex justify-between items-center mb-6">
+            <h2 className="text-2xl font-bold text-gray-800">All Products</h2>
+            <span className="text-sm text-gray-500">
+              Showing {filteredProducts.length} results
+            </span>
+          </div>
+
+          <ProductGrid products={filteredProducts} />
+        </main>
+      </div>
+    </div>
+  );
+}
