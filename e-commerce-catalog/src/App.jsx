@@ -5,10 +5,12 @@ import ProductGrid from './components/ProductGrid';
 import { mockProducts } from './data/mockProducts';
 
 export default function App() {
+  //define filter states
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [maxPrice, setMaxPrice] = useState(10000);
 
+//define category check box toggle 
   const handleCategoryChange = (category) => {
     setSelectedCategories((prev) =>
       prev.includes(category)
@@ -17,16 +19,20 @@ export default function App() {
     );
   };
 
+  //core filtering logic using memo 
   const filteredProducts = useMemo(() => {
     return mockProducts.filter((product) => {
+      //search (match -check title)
       const matchesSearch = product.title
         .toLowerCase()
         .includes(searchQuery.toLowerCase());
 
+      //category match if none selected   
       const matchesCategory =
         selectedCategories.length === 0 ||
         selectedCategories.includes(product.category);
 
+       //price match  
       const matchesPrice = product.price <= maxPrice;
 
       return matchesSearch && matchesCategory && matchesPrice;

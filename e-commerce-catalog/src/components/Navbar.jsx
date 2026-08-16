@@ -1,3 +1,4 @@
+//used for searchQuery and setSearchQuery
 export default function Navbar({ searchQuery, setSearchQuery }) {
   return (
     <header className="bg-blue-600 text-white shadow-md px-6 py-4 flex items-center justify-between">
